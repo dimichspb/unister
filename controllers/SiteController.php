@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\ChooseForm;
 use app\models\FlightForm;
 use Yii;
 use yii\filters\AccessControl;
@@ -9,6 +10,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Flight;
 
 class SiteController extends Controller
 {
@@ -73,10 +75,20 @@ class SiteController extends Controller
             return $this->redirect(['site/index']);
         }
 
+        $chooseModel = new ChooseForm();
+
         return $this->render('search', [
             'searchModel' => $model,
             'dataProvider' => $dataProvider,
+            'chooseModel' => $chooseModel,
         ]);
+    }
+
+    public function actionDetails()
+    {
+        var_dump(Yii::$app->request->post());
+        die();
+        //$model = Flight::findById($id);
     }
 
     public function actionLogin()
