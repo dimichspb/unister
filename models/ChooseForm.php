@@ -25,6 +25,7 @@ class ChooseForm extends Flight
     {
         return [
             [['adults', 'flight_id'], 'integer'],
+            [['adults', 'flight_id'], 'required']
         ];
     }
 

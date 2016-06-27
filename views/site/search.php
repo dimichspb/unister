@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'method' => 'POST',
         ]) ?>
         <?= $form->field($chooseModel, 'adults')->hiddenInput()->label(false) ?>
-        <?= $form->field($chooseModel, 'flight_id')->hiddenInput()->label(false) ?>
+
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'template' => '{book}',
                     'buttons' => [
                         'book' => function ($url, $model) {
-                            return Html::submitButton('<i class="glyphicon glyphicon-shopping-cart"></i> Book now', ['class' => 'btn btn-primary', 'name' => 'book', 'value' => $model->id]);
+                            return Html::submitButton('<i class="glyphicon glyphicon-shopping-cart"></i> Book now', ['class' => 'btn btn-primary', 'name' => 'ChooseForm[flight_id]', 'value' => $model->id]);
                         },
                     ],
                 ],

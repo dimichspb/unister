@@ -19,10 +19,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout', 'details'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'details'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -32,6 +32,8 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+                    'search' => ['get'],
+                    'details' => ['post'],
                 ],
             ],
         ];
@@ -63,10 +65,6 @@ class SiteController extends Controller
 
     public function actionSearch()
     {
-        if (!Yii::$app->request->isGet) {
-            return $this->redirect(['site/index']);
-        }
-
         $model = new FlightForm();
         $dataProvider = $model->search(Yii::$app->request->queryParams);
 
@@ -76,6 +74,7 @@ class SiteController extends Controller
         }
 
         $chooseModel = new ChooseForm();
+        $chooseModel->adults = $model->adults;
 
         return $this->render('search', [
             'searchModel' => $model,
@@ -86,9 +85,17 @@ class SiteController extends Controller
 
     public function actionDetails()
     {
-        var_dump(Yii::$app->request->post());
-        die();
-        //$model = Flight::findById($id);
+        $model = new ChooseForm();
+        $model->load(Yii::$app->request->post());
+
+        $bookModel = new Booking();
+        $bookModel->adults = $model->adults;
+        $bookModel->flight_id = $model->flight_id;
+        $bookModel->user_id = Yii::$app->user->getId();
+
+        return $this->render('details', [
+            'model' => $bookModel,
+        ]);
     }
 
     public function actionLogin()
