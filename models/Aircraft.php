@@ -46,4 +46,13 @@ class Aircraft extends \yii\db\ActiveRecord
             'icao' => 'Icao',
         ];
     }
+
+    /**
+     * @param $icao
+     * @return Aircraft
+     */
+    public static function findByICAO($icao)
+    {
+        return Aircraft::findOne(['icao' => $icao]);
+    }
 }
