@@ -95,13 +95,10 @@ class SiteController extends Controller
         $bookModel->flight_id = $model->flight_id;
         $bookModel->user_id = Yii::$app->user->getId();
 
-        if ($bookModel->validate()) {
-            return $this->render('details', [
-                'model' => $bookModel,
-            ]);
-        }
-        Yii::$app->session->addFlash('danger', 'Sorry, you cannot book the same flight twice');
-        return $this->goBack();
+        return $this->render('details', [
+            'model' => $bookModel,
+        ]);
+
     }
 
     public function actionConfirmation()
