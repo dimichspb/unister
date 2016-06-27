@@ -44,7 +44,7 @@ class FlightController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view'],
-                        'roles' => ['customer', '@'],
+                        'roles' => ['customer', '?'],
                     ],
                 ],
             ],

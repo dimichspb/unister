@@ -16,13 +16,13 @@ class m160627_074010_adding_roles extends Migration
         $manager = $auth->createRole('manager');
         $manager->description = 'Manager role';
         $auth->add($manager);
+        $auth->addChild($manager, $customer);
 
         // add "admin" role and give this role the "updatePost" permission
         // as well as the permissions of the "author" role
         $admin = $auth->createRole('admin');
         $admin->description = 'Admin role';
         $auth->add($admin);
-        $auth->addChild($admin, $customer);
         $auth->addChild($admin, $manager);
     }
 
