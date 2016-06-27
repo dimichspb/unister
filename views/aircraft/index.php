@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Aircraft', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?php endif; ?>
-    
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
