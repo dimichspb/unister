@@ -43,7 +43,7 @@ class Aircraft extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'icao' => 'Icao',
+            'icao' => 'ICAO',
         ];
     }
 

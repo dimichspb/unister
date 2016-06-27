@@ -42,7 +42,7 @@ class City extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'iata' => 'Iata',
+            'iata' => 'IATA',
         ];
     }
 
