@@ -3,19 +3,19 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation for table `airline`.
+ * Handles the creation for table `city`.
  */
-class m160627_081329_create_airline extends Migration
+class m160627_091233_create_city extends Migration
 {
     /**
      * @inheritdoc
      */
     public function up()
     {
-        $this->createTable('{{%airline}}', [
+        $this->createTable('{{%city}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string(255)->notNull()->unique(),
-            'icao' => $this->string(3)->notNull()->unique(),
+            'iata' => $this->string(255)->notNull()->unique(),
         ]);
     }
 
@@ -24,6 +24,6 @@ class m160627_081329_create_airline extends Migration
      */
     public function down()
     {
-        $this->dropTable('{{%airline}}');
+        $this->dropTable('city');
     }
 }
