@@ -28,9 +28,9 @@ class City extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'iata'], 'required'],
-            [['name', 'iata'], 'string', 'max' => 255],
-            [['name'], 'unique'],
-            [['iata'], 'unique'],
+            [['name'], 'string', 'max' => 255],
+            [['iata'], 'string', 'max' => 3],
+            [['name', 'iata'], 'unique'],
         ];
     }
 
@@ -44,5 +44,14 @@ class City extends \yii\db\ActiveRecord
             'name' => 'Name',
             'iata' => 'Iata',
         ];
+    }
+
+    /**
+     * @param $iata
+     * @return City
+     */
+    public static function findByIATA($iata)
+    {
+        return City::findOne(['iata' => $iata]);
     }
 }
