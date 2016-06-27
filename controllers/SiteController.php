@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\FlightForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -49,7 +50,33 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = new FlightForm();
+        $model->adults = empty($model->adults)? 1: $model->adults;
+
+
+        return $this->render('index', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionSearch()
+    {
+        if (!Yii::$app->request->isGet) {
+            return $this->redirect(['site/index']);
+        }
+
+        $model = new FlightForm();
+        $dataProvider = $model->search(Yii::$app->request->queryParams);
+
+        if ($dataProvider->getCount() === 0) {
+            Yii::$app->session->addFlash('info', 'Sorry, no flight found by your criteria');
+            return $this->redirect(['site/index']);
+        }
+
+        return $this->render('search', [
+            'searchModel' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     public function actionLogin()

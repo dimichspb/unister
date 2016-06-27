@@ -15,6 +15,7 @@ use yii\helpers\ArrayHelper;
  */
 class FlightForm extends Flight
 {
+    public $adults;
     /**
      * @inheritdoc
      */
@@ -23,6 +24,9 @@ class FlightForm extends Flight
         return [
             [['id', 'origin_id', 'destination_id', 'adults'], 'integer'],
             [['departure'], 'date'],
+            ['destination_id', 'compare', 'compareAttribute' => 'origin_id', 'operator' => '!='],
+            [['destination_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['destination_id' => 'id']],
+            [['origin_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['origin_id' => 'id']],
         ];
     }
 
