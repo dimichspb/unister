@@ -10,6 +10,7 @@ $dbConfig = [
     'charset' => 'utf8',
 ];
 
-$dbLocalConfig = file_exists('db-local.php')? require ('db-local.php'): [];
+$dbConfigLocal = file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'db-local.php')? require ('db-local.php'): [];
 
-return ArrayHelper::merge($dbConfig, $dbLocalConfig);
+return ArrayHelper::merge($dbConfig, $dbConfigLocal);
+

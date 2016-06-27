@@ -51,6 +51,9 @@ $config = [
                 'contact' => 'site/contact',
             ],
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
     ],
     'params' => $params,
 ];
@@ -68,6 +71,6 @@ if (YII_ENV_DEV) {
     ];
 }
 
-$configLocal = file_exists('web-local.php')? require ('web-local.php'): [];
+$configLocal = file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'web-local.php')? require ('web-local.php'): [];
 
 return ArrayHelper::merge($config, $configLocal);
