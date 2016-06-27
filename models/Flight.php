@@ -17,6 +17,8 @@ use Yii;
  * @property string $number
  * @property integer $seats
  * @property double $price
+ * @property integer $available
+ * @property string $title
  *
  * @property Aircraft $aircraft
  * @property Airline $airline
@@ -116,5 +118,10 @@ class Flight extends \yii\db\ActiveRecord
     public function getAvailable()
     {
         return $this->seats - 10;
+    }
+
+    public function getTitle()
+    {
+        return $this->origin->iata . ' - ' . $this->destination->iata . ' ' . $this->departure . ' ' . $this->arrival . ', ' . $this->airline->name;
     }
 }
