@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="flight-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Flight', ['create'], ['class' => 'btn btn-success']) ?>
@@ -56,7 +56,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'available',
             'price:currency',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => Yii::$app->user->can('admin')? '{view} {update} {delete}': '{view}',
+            ],
         ],
     ]); ?>
 </div>

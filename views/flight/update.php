@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $this->title = 'Update Flight: ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Flights', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="flight-update">
