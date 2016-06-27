@@ -26,8 +26,11 @@ class m160627_081721_adding_demo_airlines extends Migration
     public function down()
     {
         $demoAirline1 = Airline::findByICAO('EZY');
+        $demoAirline1->delete();
         $demoAirline2 = Airline::findByICAO('RYR');
+        $demoAirline2->delete();
         $demoAirline3 = Airline::findByICAO('GWI');
+        $demoAirline3->delete();
     }
 
 }

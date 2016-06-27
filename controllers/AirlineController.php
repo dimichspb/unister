@@ -8,6 +8,7 @@ use app\models\AirlineSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * AirlineController implements the CRUD actions for Airline model.
@@ -24,6 +25,17 @@ class AirlineController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'update', 'create', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'update', 'create', 'delete'],
+                        'roles' => ['manager'],
+                    ],
                 ],
             ],
         ];

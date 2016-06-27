@@ -29,7 +29,7 @@ class Airline extends \yii\db\ActiveRecord
         return [
             [['name', 'icao'], 'required'],
             [['name'], 'string', 'max' => 255],
-            [['icao'], 'string', 'max' => 2],
+            [['icao'], 'string', 'max' => 3],
             [['name', 'icao'], 'unique'],
         ];
     }
