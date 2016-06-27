@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'destination.name',
             'departure:datetime',
             'arrival:datetime',
+            'duration',
             'airline.name',
             'number',
             'aircraft.name',

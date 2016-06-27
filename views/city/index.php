@@ -27,7 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'iata',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => Yii::$app->user->can('manager')? '{view} {update} {delete}': '{view}',
+            ],
         ],
     ]); ?>
 </div>

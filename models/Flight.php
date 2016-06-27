@@ -19,6 +19,7 @@ use Yii;
  * @property double $price
  * @property integer $available
  * @property string $title
+ * @property string $duration
  *
  * @property Aircraft $aircraft
  * @property Airline $airline
@@ -77,6 +78,7 @@ class Flight extends \yii\db\ActiveRecord
             'seats' => 'Total seats',
             'available' => 'Available seats',
             'price' => 'Price/seat',
+            'duration' => 'Duration',
         ];
     }
 
@@ -123,5 +125,13 @@ class Flight extends \yii\db\ActiveRecord
     public function getTitle()
     {
         return $this->origin->iata . ' - ' . $this->destination->iata . ' ' . $this->departure . ' ' . $this->arrival . ', ' . $this->airline->name;
+    }
+
+    public function getDuration()
+    {
+        $departure = new \DateTime($this->departure);
+        $arrival = new \DateTime($this->arrival);
+        $interval = $arrival->diff($departure);
+        return $interval->format('%H:%i');
     }
 }

@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'destination.name',
             'departure:datetime',
             'arrival:datetime',
+            'duration',
             [
                 'attribute' => 'airline.name',
                 'value' => function(Flight $model) {
@@ -55,7 +56,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'available',
             'price:currency',
-
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => Yii::$app->user->can('admin')? '{view} {update} {delete}': '{view}',
