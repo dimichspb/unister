@@ -48,15 +48,41 @@ use app\models\Aircraft;
     ]) ?>
 
     <?= $form->field($model, 'number')->widget(MaskedInput::className(), [
-        'mask' => '9999',
+        'clientOptions' => [
+            'alias' => 'numeric',
+            'allowMinus'=>false,
+            'groupSize'=> 4,
+            'radixPoint'=> '',
+            'groupSeparator' => ' ',
+            'autoGroup' => true,
+            'removeMaskOnSubmit' => true,
+        ],
     ]) ?>
 
     <?= $form->field($model, 'seats')->widget(MaskedInput::className(), [
-        'mask' => '999',
+        'clientOptions' => [
+            'alias' => 'numeric',
+            'allowMinus'=>false,
+            'groupSize'=> 3,
+            'radixPoint'=> '',
+            'groupSeparator' => ' ',
+            'autoGroup' => true,
+            'removeMaskOnSubmit' => true,
+        ],
     ]) ?>
 
     <?= $form->field($model, 'price')->widget(MaskedInput::className(), [
-        'mask' => '99999.99',
+        'clientOptions' => [
+            'alias' => 'decimal',
+            'digits' => 2,
+            'digitsOptional' => false,
+            'allowMinus'=>false,
+            'groupSize'=> 3,
+            'radixPoint'=> '.',
+            'groupSeparator' => ' ',
+            'autoGroup' => true,
+            'removeMaskOnSubmit' => true,
+        ],
     ]) ?>
 
     <div class="form-group">
