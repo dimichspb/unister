@@ -6,6 +6,7 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'basic',
+    'name' => 'Flight inventory',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
