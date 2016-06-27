@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
- * @property string $iata
+ * @property string $icao
  */
 class Airline extends \yii\db\ActiveRecord
 {
@@ -27,9 +27,10 @@ class Airline extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'iata'], 'required'],
+            [['name', 'icao'], 'required'],
             [['name'], 'string', 'max' => 255],
-            [['iata'], 'string', 'max' => 2],
+            [['icao'], 'string', 'max' => 2],
+            [['name', 'icao'], 'unique'],
         ];
     }
 
@@ -41,7 +42,16 @@ class Airline extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'iata' => 'Iata',
+            'icao' => 'ICAO',
         ];
+    }
+
+    /**
+     * @param $icao
+     * @return Airline
+     */
+    public static function findByICAO($icao)
+    {
+        return Airline::findOne(['icao' => $icao]);
     }
 }

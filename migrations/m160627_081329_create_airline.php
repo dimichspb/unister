@@ -14,9 +14,12 @@ class m160627_081329_create_airline extends Migration
     {
         $this->createTable('{{%airline}}', [
             'id' => $this->primaryKey(),
-            'name' => $this->string(255)->notNull(),
-            'iata' => $this->string(2)->notNull(),
+            'name' => $this->string(255)->notNull()->unique(),
+            'icao' => $this->string(3)->notNull()->unique(),
         ]);
+
+        $this->createIndex('idx_airline_name', '{{%airline}}', 'name', true);
+        $this->createIndex('idx_airline_icao', '{{%airline}}', 'icao', true);
     }
 
     /**
