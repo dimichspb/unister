@@ -59,7 +59,7 @@ use kartik\touchspin\TouchSpin;
 </div>
 <div class="row">
     <div class="col-xs-12 text-center">
-        <?= Html::submitButton('<i class="glyphicon glyphicon-search"></i> Search', ['class' => 'btn btn-default', 'name' => 'search-button']) ?>
+        <?= Html::submitButton('<i class="glyphicon glyphicon-search"></i> Search', ['class' => 'btn btn-primary', 'name' => 'search-button']) ?>
     </div>
 </div>
 

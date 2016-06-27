@@ -37,6 +37,7 @@ class Booking extends \yii\db\ActiveRecord
             [['user_id', 'flight_id', 'payment_type_id'], 'required'],
             [['user_id', 'flight_id', 'adults', 'payment_type_id'], 'integer'],
             [['created_at'], 'safe'],
+            [['user_id', 'flight_id'], 'unique', 'targetAttribute' => ['user_id', 'flight_id'], 'message' => 'You cannot book the same Flight twice.'],
             [['flight_id'], 'exist', 'skipOnError' => true, 'targetClass' => Flight::className(), 'targetAttribute' => ['flight_id' => 'id']],
             [['payment_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentType::className(), 'targetAttribute' => ['payment_type_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],

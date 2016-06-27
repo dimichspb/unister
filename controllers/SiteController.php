@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Flight;
+use app\models\Booking;
 
 class SiteController extends Controller
 {
@@ -34,6 +35,7 @@ class SiteController extends Controller
                     'logout' => ['post'],
                     'search' => ['get'],
                     'details' => ['post'],
+                    'confirmation' => ['post'],
                 ],
             ],
         ];
@@ -93,9 +95,23 @@ class SiteController extends Controller
         $bookModel->flight_id = $model->flight_id;
         $bookModel->user_id = Yii::$app->user->getId();
 
-        return $this->render('details', [
-            'model' => $bookModel,
-        ]);
+        if ($bookModel->validate()) {
+            return $this->render('details', [
+                'model' => $bookModel,
+            ]);
+        }
+        Yii::$app->session->addFlash('danger', 'Sorry, you cannot book the same flight twice');
+        return $this->goBack();
+    }
+
+    public function actionConfirmation()
+    {
+        $model = new Booking();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->render('confirmation');
+        }
+        Yii::$app->session->addFlash('danger', 'Sorry, you cannot book the same flight twice');
+        return $this->goBack();
     }
 
     public function actionLogin()
