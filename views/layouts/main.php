@@ -10,6 +10,35 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
+
+$navMenuItems = [
+    ['label' => 'Home', 'url' => ['/site/index']],
+    ['label' => 'About', 'url' => ['/site/about']],
+    ['label' => 'Contact', 'url' => ['/site/contact']],
+];
+
+if (Yii::$app->user->can('manager')) {
+    $navMenuItems[] = [
+        'label' => 'Manage',
+        'items' => [
+            ['label' => 'Airlines', 'url' => ['airline/index']],
+        ],
+    ];
+}
+
+$navMenuItems[] =
+    Yii::$app->user->isGuest ? (
+    ['label' => 'Login', 'url' => ['/site/login']]
+    ) : (
+        '<li>'
+        . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
+        . Html::submitButton(
+            'Logout (' . Yii::$app->user->identity->username . ')',
+            ['class' => 'btn btn-link']
+        )
+        . Html::endForm()
+        . '</li>'
+    );
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -35,23 +64,7 @@ AppAsset::register($this);
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
+        'items' => $navMenuItems,
     ]);
     NavBar::end();
     ?>
