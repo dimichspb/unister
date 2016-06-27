@@ -29,7 +29,7 @@ class m160627_074010_adding_roles extends Migration
     public function down()
     {
         $auth = Yii::$app->authManager;
-        
+
         $auth->removeAll();
     }
 }
