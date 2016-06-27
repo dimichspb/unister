@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\ArrayHelper;
+
 $params = require(__DIR__ . '/params.php');
 
 $config = [
@@ -66,4 +68,6 @@ if (YII_ENV_DEV) {
     ];
 }
 
-return $config;
+$configLocal = file_exists('web-local.php')? require ('web-local.php'): [];
+
+return ArrayHelper::merge($config, $configLocal);
