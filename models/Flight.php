@@ -48,7 +48,7 @@ class Flight extends \yii\db\ActiveRecord
             [['departure', 'arrival'], 'safe'],
             [['price'], 'number'],
             [['number'], 'string', 'max' => 4],
-            [['origin_id', 'destination_id', 'departure', 'arrival', 'airline_id', 'number'], 'unique', 'targetAttribute' => ['origin_id', 'destination_id', 'departure', 'arrival', 'airline_id', 'number'], 'message' => 'The combination of Origin ID, Destination ID, Departure, Arrival, Airline ID and Number has already been taken.'],
+            [['origin_id', 'destination_id', 'departure', 'arrival', 'airline_id', 'number'], 'unique', 'targetAttribute' => ['origin_id', 'destination_id', 'departure', 'arrival', 'airline_id', 'number'], 'message' => 'You cannot create Flight with the same Origin, Destination, Departure, Arrival, Airline and Number twice.'],
             [['aircraft_id'], 'exist', 'skipOnError' => true, 'targetClass' => Aircraft::className(), 'targetAttribute' => ['aircraft_id' => 'id']],
             [['airline_id'], 'exist', 'skipOnError' => true, 'targetClass' => Airline::className(), 'targetAttribute' => ['airline_id' => 'id']],
             [['destination_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['destination_id' => 'id']],

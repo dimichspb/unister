@@ -43,10 +43,6 @@ use app\models\Aircraft;
         'data' => ArrayHelper::map(Airline::find()->all(), 'id', 'name'),
     ]) ?>
 
-    <?= $form->field($model, 'aircraft_id')->widget(Select2::className(), [
-        'data' => ArrayHelper::map(Aircraft::find()->all(), 'id', 'name'),
-    ]) ?>
-
     <?= $form->field($model, 'number')->widget(MaskedInput::className(), [
         'clientOptions' => [
             'alias' => 'numeric',
@@ -57,6 +53,10 @@ use app\models\Aircraft;
             'autoGroup' => true,
             'removeMaskOnSubmit' => true,
         ],
+    ]) ?>
+
+    <?= $form->field($model, 'aircraft_id')->widget(Select2::className(), [
+        'data' => ArrayHelper::map(Aircraft::find()->all(), 'id', 'name'),
     ]) ?>
 
     <?= $form->field($model, 'seats')->widget(MaskedInput::className(), [
