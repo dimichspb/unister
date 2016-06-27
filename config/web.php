@@ -53,6 +53,8 @@ $config = [
 
                 'airlines' => 'airline/index',
                 'cities' => 'city/index',
+                'aircrafts' => 'aircraft/index',
+                'flights' => 'flight/index',
 
                 '<_c:[\w\-]+>/<_a:[\w\-]+>' => '<_c>/<_a>',
                 '<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',

@@ -30,14 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'departure.datetime',
             'arrival.datetime',
             [
-                'attribute' => 'airline_id',
+                'attribute' => 'airline.name',
                 'value' => function(Flight $model) {
                     return $model->airline->name;
                 },
                 'visible' => Yii::$app->user->can('manager'),
             ],
             [
-                'attribute' => 'aircraft_id',
+                'attribute' => 'aircraft.name',
                 'value' => function(Flight $model) {
                     return $model->aircraft->name;
                 },
