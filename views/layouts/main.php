@@ -22,6 +22,7 @@ if (Yii::$app->user->can('manager')) {
         'label' => 'Manage',
         'items' => [
             ['label' => 'Airlines', 'url' => ['airline/index']],
+            ['label' => 'Cities', 'url' => ['city/index']],
         ],
     ];
 }
