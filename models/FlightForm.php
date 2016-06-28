@@ -61,7 +61,7 @@ class FlightForm extends Flight
     {
         $query = Flight::find();
         $subQuery = Booking::find();
-        $subQuery->select('flight_id, SUM(adults) as adults_sum')->groupBy('flight_id');
+        $subQuery->select('flight_id, SUM(`adults`) as adults_sum')->groupBy('flight_id');
         $query->leftJoin(['booking' => $subQuery], 'booking.flight_id = id');
 
         // add conditions that should always apply here
@@ -69,6 +69,9 @@ class FlightForm extends Flight
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => false,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
         ]);
 
         $this->load($params);
@@ -96,7 +99,7 @@ class FlightForm extends Flight
 
         $query->andFilterWhere([
             '>=',
-            new Expression('`flight`.`seats` - `booking`.`adults_sum`'),
+            new Expression('`flight`.`seats` - IFNULL(`booking`.`adults_sum`, 0)'),
             $this->adults
         ]);
 
