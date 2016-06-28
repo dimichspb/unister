@@ -49,6 +49,17 @@ class PaymentType extends \yii\db\ActiveRecord
      */
     public static function findByName($name)
     {
-        return PaymentType::findOne(['name' => $name]);
+        $result = PaymentType::getDb()->cache(function ($db) use ($name){
+            return PaymentType::findOne(['name' => $name]);
+        });
+        return $result;
+    }
+
+    public static function find()
+    {
+        $result = PaymentType::getDb()->cache(function ($db) {
+            return parent::find();
+        });
+        return $result;
     }
 }

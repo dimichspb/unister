@@ -163,4 +163,12 @@ class Booking extends \yii\db\ActiveRecord
 
         return $this->_user;
     }
+
+    public static function find()
+    {
+        $result = Booking::getDb()->cache(function ($db) {
+            return parent::find();
+        });
+        return $result;
+    }
 }

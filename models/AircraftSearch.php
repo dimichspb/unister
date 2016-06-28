@@ -41,7 +41,7 @@ class AircraftSearch extends Aircraft
      */
     public function search($params)
     {
-        $query = Aircraft::find();
+        $query =  Aircraft::find();
 
         // add conditions that should always apply here
 
