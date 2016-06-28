@@ -12,6 +12,8 @@ use yii\helpers\ArrayHelper;
  * FlightSearch represents the model behind the search form about `app\models\Flight`.
  *
  * @property integer $adults
+ * @property integer $flight_id
+ * @property Flight $flight
  */
 class ChooseForm extends Flight
 {
@@ -27,6 +29,14 @@ class ChooseForm extends Flight
             [['adults', 'flight_id'], 'integer'],
             [['adults', 'flight_id'], 'required']
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFlight()
+    {
+        return $this->hasOne(Flight::className(), ['id' => 'flight_id']);
     }
 
 }

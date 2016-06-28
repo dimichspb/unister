@@ -62,6 +62,7 @@ class FlightForm extends Flight
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => false,
         ]);
 
         $this->load($params);

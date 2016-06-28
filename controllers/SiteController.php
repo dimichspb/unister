@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\ChooseForm;
 use app\models\FlightForm;
+use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -20,10 +21,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'details'],
+                'only' => ['logout', 'confirmation'],
                 'rules' => [
                     [
-                        'actions' => ['logout', 'details'],
+                        'actions' => ['logout', 'confirmation'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -87,18 +88,22 @@ class SiteController extends Controller
 
     public function actionDetails()
     {
-        $model = new ChooseForm();
-        $model->load(Yii::$app->request->post());
+        $chooseModel = new ChooseForm();
+        $chooseModel->load(Yii::$app->request->post());
 
-        $bookModel = new Booking();
-        $bookModel->adults = $model->adults;
-        $bookModel->flight_id = $model->flight_id;
-        $bookModel->user_id = Yii::$app->user->getId();
+        $userModel = Yii::$app->user->isGuest? new User(): Yii::$app->user->getIdentity();
+        $flightModel = $chooseModel->flight;
+
+        $bookingModel = new Booking();
+        $bookingModel->adults = $chooseModel->adults;
+        $bookingModel->flight_id = $chooseModel->flight_id;
+        $bookingModel->user_id = $userModel->id;
 
         return $this->render('details', [
-            'model' => $bookModel,
+            'bookingModel' => $bookingModel,
+            'userModel' => $userModel,
+            'flightModel' => $flightModel,
         ]);
-
     }
 
     public function actionConfirmation()

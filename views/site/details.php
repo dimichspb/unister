@@ -9,9 +9,9 @@ use app\models\PaymentType;
 use yii\helpers\ArrayHelper;
 
 /* @var $this \yii\base\View */
-/* @var $model \app\models\Booking */
-
-$flight = $model->flight;
+/* @var $bookingModel \app\models\Booking */
+/* @var $flightModel \app\models\Flight */
+/* @var $userModel \app\models\User */
 
 $this->title = 'Confirmation';
 ?>
@@ -29,7 +29,7 @@ $this->title = 'Confirmation';
     <div class="row">
         <div class="col-xs-12">
             <?= DetailView::widget([
-                'model' => $flight,
+                'model' => $flightModel,
                 'attributes' => [
                     'origin.name',
                     'destination.name',
@@ -40,6 +40,24 @@ $this->title = 'Confirmation';
                     'number',
                     'aircraft.name',
                 ]
+            ]) ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>User details:</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <?= DetailView::widget([
+                'model' => $userModel,
+                'attributes' => [
+                    'username',
+                    'email',
+                ],
             ]) ?>
         </div>
     </div>
@@ -58,19 +76,19 @@ $this->title = 'Confirmation';
                 'method' => 'POST',
             ]); ?>
 
-            <?= $form->field($model, 'user_id')->hiddenInput()->label(false) ?>
+            <?= $form->field($bookingModel, 'user_id')->hiddenInput()->label(false) ?>
 
-            <?= $form->field($model, 'flight_id')->hiddenInput()->label(false) ?>
+            <?= $form->field($bookingModel, 'flight_id')->hiddenInput()->label(false) ?>
 
-            <?= $form->field($model, 'adults')->widget(TouchSpin::className(), [
+            <?= $form->field($bookingModel, 'adults')->widget(TouchSpin::className(), [
                 'pluginOptions' => [
                     'min' => 1,
                     'step' => 1,
-                    'max' => $flight->available,
+                    'max' => $flightModel->available,
                 ],
             ]); ?>
 
-            <?= $form->field($model, 'payment_type_id')->widget(Select2::className(), [
+            <?= $form->field($bookingModel, 'payment_type_id')->widget(Select2::className(), [
                 'data' => ArrayHelper::map(PaymentType::find()->all(), 'id', 'name'),
                 'options' => ['placeholder' => 'Choose your payment method...'],
             ]); ?>
