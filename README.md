@@ -1,4 +1,4 @@
-This is Unister Flight Inventory Test Application.
+#This is Unister Flight Inventory Test Application.
 
 @author Dmitry Tarantin [dimichspb@gmail.com](mailto:dimichspb@gmail.com)
 
@@ -6,7 +6,7 @@ Webroot folder is `web`. The application has been configured to work with Apache
 
 Tests in `codeception` directory are developed with [Codeception PHP Testing Framework](http://codeception.com/).
 
-To run the application please do the following steps:
+##To run the application please do the following steps:
 
 1. Do to your working directory:
 
@@ -52,17 +52,38 @@ To run the application please do the following steps:
     php yii migrate
     ```
 
-7. You can try to open the application in your favourite browser now!
+7. You can try to open the application in your favourite browser now.
 
-8.
+8. Enjoy!
 
-After creating and setting up the advanced application, follow these steps to prepare for the tests:
+##After creating and setting up the application, follow these steps to work with it:
 
-1. Install Codeception if it's not yet installed:
+1. Please use the following details to login:
 
-   ```
-   composer global require "codeception/codeception=2.0.*" "codeception/specify=*" "codeception/verify=*"
-   ```
+    ###Admin role:
+    ```
+    admin/admin
+    ```
+
+    ###Manager role:
+    ```
+    manager/manager
+    ```
+
+    ###Customer role:
+    ```
+    customer/customer
+    ```
+
+2. To navigate lease use top nav bar.
+
+##To run unit tests:
+
+1. Make sure you have `codeception` testing framework installed in your system:
+
+    ```
+    composer global require "codeception/codeception=2.0.*" "codeception/specify=*" "codeception/verify=*"
+    ```
 
    If you've never used Composer for global packages run `composer global status`. It should output:
 
@@ -73,40 +94,11 @@ After creating and setting up the advanced application, follow these steps to pr
    Then add `<directory>/vendor/bin` to you `PATH` environment variable. Now you're able to use `codecept` from command
    line globally.
 
-2. Install faker extension by running the following from template root directory where `composer.json` is:
 
-   ```
-   composer require --dev yiisoft/yii2-faker:*
-   ```
+2. Please go to the `/tests` directory.
 
-3. Create `yii2_advanced_tests` database then update it by applying migrations:
+3. Run `codecept build`.
 
-   ```
-   codeception/bin/yii migrate
-   ```
+4. Run `codecept run unit`.
 
-4. In order to be able to run acceptance tests you need to start a webserver. The simplest way is to use PHP built in
-   webserver. In the root directory where `common`, `frontend` etc. are execute the following:
-
-   ```
-   php -S localhost:8080
-   ```
-
-5. Now you can run the tests with the following commands, assuming you are in the `tests/codeception` directory:
-
-   ```
-   # frontend tests
-   cd frontend
-   codecept build
-   codecept run
-
-   # backend tests
-
-   cd backend
-   codecept build
-   codecept run
-
-   # etc.
-   ```
-
-  If you already have run `codecept build` for each application, you can skip that step and run all tests by a single `codecept run`.
+5. Make sure all the tests are finished with no failures.
