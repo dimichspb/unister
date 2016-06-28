@@ -38,16 +38,20 @@ class SiteController extends Controller
                     'details' => ['post'],
                 ],
             ],
-            'pageCache' => [
+            [
                 'class' => 'yii\filters\PageCache',
                 'only' => ['index'],
                 'duration' => 600,
+                'variations' => [
+                    Yii::$app->language,
+                    Yii::$app->user->getId(),
+                ],
                 'dependency' => [
                     'class' => 'yii\caching\DbDependency',
                     'sql' => 'SELECT COUNT(*) FROM city',
                 ],
             ],
-            'httpCache' => [
+            [
                 'class' => 'yii\filters\HttpCache',
                 'only' => ['index'],
                 'lastModified' => function ($action, $params) {
