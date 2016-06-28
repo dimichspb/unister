@@ -4,7 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
-use yii\web\User;
+use app\models\User;
 
 /**
  * LoginForm is the model behind the login form.
@@ -37,7 +37,7 @@ class LoginForm extends Model
     /**
      * Return User
      *
-     * @var bool|\app\models\User
+     * @var bool
      */
     private $_user = false;
 
