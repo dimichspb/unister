@@ -8,6 +8,8 @@ $dbConfig = [
     'username' => 'root',
     'password' => '',
     'charset' => 'utf8',
+    'enableSchemaCache' => true,
+    'enableQueryCache' => true,
 ];
 
 $dbConfigLocal = file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'db-local.php')? require ('db-local.php'): [];

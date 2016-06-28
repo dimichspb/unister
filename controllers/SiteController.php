@@ -38,6 +38,24 @@ class SiteController extends Controller
                     'details' => ['post'],
                 ],
             ],
+            'pageCache' => [
+                'class' => 'yii\filters\PageCache',
+                'only' => ['index'],
+                'duration' => 600,
+                'dependency' => [
+                    'class' => 'yii\caching\DbDependency',
+                    'sql' => 'SELECT COUNT(*) FROM city',
+                ],
+            ],
+            'httpCache' => [
+                'class' => 'yii\filters\HttpCache',
+                'only' => ['index'],
+                'lastModified' => function ($action, $params) {
+                    return time();
+                },
+                'sessionCacheLimiter' => 'public',
+                'cacheControlHeader' => 'public, max-age=300',
+            ],
         ];
     }
 
@@ -58,7 +76,6 @@ class SiteController extends Controller
     {
         $model = new FlightForm();
         $model->adults = empty($model->adults)? 1: $model->adults;
-
 
         return $this->render('index', [
             'model' => $model,
