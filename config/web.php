@@ -51,9 +51,10 @@ $config = [
                 'about' => 'site/about',
                 'contact' => 'site/contact',
 
+                'aircrafts' => 'aircraft/index',
                 'airlines' => 'airline/index',
                 'cities' => 'city/index',
-                'aircrafts' => 'aircraft/index',
+                'methods' => 'payment-type/index',
                 'flights' => 'flight/index',
 
                 '<_c:[\w\-]+>/<_a:[\w\-]+>' => '<_c>/<_a>',

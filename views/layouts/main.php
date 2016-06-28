@@ -22,9 +22,10 @@ if (Yii::$app->user->can('manager')) {
     $navMenuItems[] = [
         'label' => 'Manage',
         'items' => [
+            ['label' => 'Aircrafts', 'url' => ['aircraft/index']],
             ['label' => 'Airlines', 'url' => ['airline/index']],
             ['label' => 'Cities', 'url' => ['city/index']],
-            ['label' => 'Aircrafts', 'url' => ['aircraft/index']],
+            ['label' => 'Payment methods', 'url' => ['payment-type/index']],
             ['label' => 'Flights', 'url' => ['flight/index']],
         ],
     ];
