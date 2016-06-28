@@ -1,102 +1,112 @@
-Yii 2 Basic Project Template
-============================
+This is Unister Flight Inventory Test Application.
 
-Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-rapidly creating small projects.
+@author Dmitry Tarantin [dimichspb@gmail.com](mailto:dimichspb@gmail.com)
 
-The template contains the basic features including user login/logout and a contact page.
-It includes all commonly used configurations that would allow you to focus on adding new
-features to your application.
+Webroot folder is `web`. The application has been configured to work with Apache web-server as default.
 
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-app-basic/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![Total Downloads](https://poser.pugx.org/yiisoft/yii2-app-basic/downloads.png)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![Build Status](https://travis-ci.org/yiisoft/yii2-app-basic.svg?branch=master)](https://travis-ci.org/yiisoft/yii2-app-basic)
+Tests in `codeception` directory are developed with [Codeception PHP Testing Framework](http://codeception.com/).
 
-DIRECTORY STRUCTURE
--------------------
+To run the application please do the following steps:
 
-      assets/             contains assets definition
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      controllers/        contains Web controller classes
-      mail/               contains view files for e-mails
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
-      views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
+1. Do to your working directory:
 
+    ```
+    cd work
+    ```
 
+2. Clone the application repository from github:
 
-REQUIREMENTS
-------------
+    ```
+    git clone https://github.com/dimichspb/unister.git
+    ```
 
-The minimum requirement by this project template that your Web server supports PHP 5.4.0.
+3. Install dependencies using composer:
 
+    ```
+    composer install
+    ```
 
-INSTALLATION
-------------
+    Please note that composer should be installed in your system
 
-### Install from an Archive File
+4. Make sure your web-server is configured to open `web` directory as default
 
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
-a directory named `basic` that is directly under the Web root.
+5. Create database:
 
-Set cookie validation key in `config/web.php` file to some random secret string:
+    By default the application is configured to work with MySql DataBase. You can adjust connection settings by changing
+    `/config/db.php` file like follows:
 
-```php
-'request' => [
-    // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-    'cookieValidationKey' => '<secret random string goes here>',
-],
-```
+    ```
+    $dbConfig = [
+        'class' => 'yii\db\Connection',
+        'dsn' => 'mysql:host=localhost;dbname=yii2basic',  // DataBase name
+        'username' => 'root', // Username
+        'password' => '', // Password
+        'charset' => 'utf8',
+        'enableSchemaCache' => true,
+        'enableQueryCache' => true,
+    ];
+    ```
+6. Run migrations:
 
-You can then access the application through the following URL:
+    ```
+    php yii migrate
+    ```
 
-~~~
-http://localhost/basic/web/
-~~~
+7. You can try to open the application in your favourite browser now!
 
+8.
 
-### Install via Composer
+After creating and setting up the advanced application, follow these steps to prepare for the tests:
 
-If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
-at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
+1. Install Codeception if it's not yet installed:
 
-You can then install this project template using the following command:
+   ```
+   composer global require "codeception/codeception=2.0.*" "codeception/specify=*" "codeception/verify=*"
+   ```
 
-~~~
-php composer.phar global require "fxp/composer-asset-plugin:~1.1.1"
-php composer.phar create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic basic
-~~~
+   If you've never used Composer for global packages run `composer global status`. It should output:
 
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
-directly under the Web root.
+   ```
+   Changed current directory to <directory>
+   ```
 
-~~~
-http://localhost/basic/web/
-~~~
+   Then add `<directory>/vendor/bin` to you `PATH` environment variable. Now you're able to use `codecept` from command
+   line globally.
 
+2. Install faker extension by running the following from template root directory where `composer.json` is:
 
-CONFIGURATION
--------------
+   ```
+   composer require --dev yiisoft/yii2-faker:*
+   ```
 
-### Database
+3. Create `yii2_advanced_tests` database then update it by applying migrations:
 
-Edit the file `config/db.php` with real data, for example:
+   ```
+   codeception/bin/yii migrate
+   ```
 
-```php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '1234',
-    'charset' => 'utf8',
-];
-```
+4. In order to be able to run acceptance tests you need to start a webserver. The simplest way is to use PHP built in
+   webserver. In the root directory where `common`, `frontend` etc. are execute the following:
 
-**NOTES:**
-- Yii won't create the database for you, this has to be done manually before you can access it.
-- Check and edit the other files in the `config/` directory to customize your application as required.
-- Refer to the README in the `tests` directory for information specific to basic application tests.
+   ```
+   php -S localhost:8080
+   ```
+
+5. Now you can run the tests with the following commands, assuming you are in the `tests/codeception` directory:
+
+   ```
+   # frontend tests
+   cd frontend
+   codecept build
+   codecept run
+
+   # backend tests
+
+   cd backend
+   codecept build
+   codecept run
+
+   # etc.
+   ```
+
+  If you already have run `codecept build` for each application, you can skip that step and run all tests by a single `codecept run`.
