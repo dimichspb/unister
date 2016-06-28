@@ -141,7 +141,7 @@ class Flight extends \yii\db\ActiveRecord
         $departure = new \DateTime($this->departure);
         $arrival = new \DateTime($this->arrival);
         $interval = $arrival->diff($departure);
-        return $interval->format('%H:%i');
+        return $interval->format($interval->d > 0? '%d days %H:%i':'%H:%i');
     }
 
     /**
