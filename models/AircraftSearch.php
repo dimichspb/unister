@@ -47,6 +47,7 @@ class AircraftSearch extends Aircraft
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => false,
         ]);
 
         $this->load($params);

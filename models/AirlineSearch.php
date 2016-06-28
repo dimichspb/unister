@@ -47,6 +47,7 @@ class AirlineSearch extends Airline
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => false,
         ]);
 
         $this->load($params);

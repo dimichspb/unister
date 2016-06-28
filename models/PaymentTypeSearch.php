@@ -47,6 +47,7 @@ class PaymentTypeSearch extends PaymentType
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => false,
         ]);
 
         $this->load($params);
