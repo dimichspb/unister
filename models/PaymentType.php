@@ -13,6 +13,8 @@ use Yii;
 class PaymentType extends \yii\db\ActiveRecord
 {
     /**
+     * Table name
+     *
      * @inheritdoc
      */
     public static function tableName()
@@ -21,6 +23,8 @@ class PaymentType extends \yii\db\ActiveRecord
     }
 
     /**
+     * Validation rules
+     *
      * @inheritdoc
      */
     public function rules()
@@ -33,6 +37,8 @@ class PaymentType extends \yii\db\ActiveRecord
     }
 
     /**
+     * Attribute labels
+     *
      * @inheritdoc
      */
     public function attributeLabels()
@@ -44,17 +50,22 @@ class PaymentType extends \yii\db\ActiveRecord
     }
 
     /**
+     * Finds PaymentType by name
+     *
      * @param $name
      * @return PaymentType
      */
     public static function findByName($name)
     {
-        $result = PaymentType::getDb()->cache(function ($db) use ($name){
-            return PaymentType::findOne(['name' => $name]);
-        });
-        return $result;
+        return PaymentType::findOne(['name' => $name]);
     }
 
+    /**
+     * Finds PaymentType using DB cache
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     public static function find()
     {
         $result = PaymentType::getDb()->cache(function ($db) {

@@ -13,6 +13,8 @@ use app\models\Airline;
 class AirlineSearch extends Airline
 {
     /**
+     * Validation rules
+     *
      * @inheritdoc
      */
     public function rules()
@@ -24,6 +26,8 @@ class AirlineSearch extends Airline
     }
 
     /**
+     * Model scenarios
+     *
      * @inheritdoc
      */
     public function scenarios()

@@ -10,14 +10,40 @@ use yii\base\Model;
  */
 class ContactForm extends Model
 {
+    /**
+     * Customer name
+     * @var
+     */
     public $name;
+
+    /**
+     * Customer email
+     * @var
+     */
     public $email;
+
+    /**
+     * Message subject
+     * @var
+     */
     public $subject;
+
+    /**
+     * Message body
+     * @var
+     */
     public $body;
+
+    /**
+     * Captcha
+     * @var
+     */
     public $verifyCode;
 
 
     /**
+     * Validation rules
+     *
      * @return array the validation rules.
      */
     public function rules()
@@ -33,6 +59,8 @@ class ContactForm extends Model
     }
 
     /**
+     * Attribute labels
+     *
      * @return array customized attribute labels
      */
     public function attributeLabels()
@@ -44,6 +72,7 @@ class ContactForm extends Model
 
     /**
      * Sends an email to the specified email address using the information collected by this model.
+     *
      * @param string $email the target email address
      * @return boolean whether the model passes validation
      */

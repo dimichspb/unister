@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use yii\web\User;
 
 /**
  * LoginForm is the model behind the login form.
@@ -13,14 +14,36 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
+    /**
+     * Customer username to login
+     *
+     * @var string $username
+     */
     public $username;
-    public $password;
-    public $rememberMe = true;
-
-    private $_user = false;
-
 
     /**
+     * Customer password to login
+     *
+     * @var string $password
+     */
+    public $password;
+
+    /**
+     * Remember the Customer?
+     * @var bool
+     */
+    public $rememberMe = true;
+
+    /**
+     * Return User
+     *
+     * @var bool|\app\models\User
+     */
+    private $_user = false;
+
+    /**
+     * Validation rules
+     *
      * @return array the validation rules.
      */
     public function rules()
@@ -55,6 +78,7 @@ class LoginForm extends Model
 
     /**
      * Logs in a user using the provided username and password.
+     *
      * @return boolean whether the user is logged in successfully
      */
     public function login()

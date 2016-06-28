@@ -9,7 +9,7 @@ use app\models\Flight;
 use yii\helpers\ArrayHelper;
 
 /**
- * FlightSearch represents the model behind the search form about `app\models\Flight`.
+ * ChooseForm represents the Customer choice of Flight and Adults.
  *
  * @property integer $adults
  * @property integer $flight_id
@@ -17,10 +17,22 @@ use yii\helpers\ArrayHelper;
  */
 class ChooseForm extends Flight
 {
+    /**
+     * Number of seats customer wants to book
+     *
+     * @var
+     */
     public $adults;
+    /**
+     * Flight id which the customer wants to book
+     *
+     * @var
+     */
     public $flight_id;
 
     /**
+     * Validation rules
+     *
      * @inheritdoc
      */
     public function rules()
@@ -32,6 +44,8 @@ class ChooseForm extends Flight
     }
 
     /**
+     * Finds the Flight which customer wants to book
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getFlight()

@@ -13,6 +13,8 @@ use app\models\City;
 class CitySearch extends City
 {
     /**
+     * Validation Rules
+     *
      * @inheritdoc
      */
     public function rules()
@@ -24,6 +26,8 @@ class CitySearch extends City
     }
 
     /**
+     * Model scenarios
+     *
      * @inheritdoc
      */
     public function scenarios()

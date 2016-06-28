@@ -30,6 +30,8 @@ use yii\db\ActiveQuery;
 class Flight extends \yii\db\ActiveRecord
 {
     /**
+     * Table name
+     *
      * @inheritdoc
      */
     public static function tableName()
@@ -38,6 +40,8 @@ class Flight extends \yii\db\ActiveRecord
     }
 
     /**
+     * Validation rules
+     *
      * @inheritdoc
      */
     public function rules()
@@ -45,8 +49,8 @@ class Flight extends \yii\db\ActiveRecord
         return [
             [['origin_id', 'destination_id', 'departure', 'arrival', 'airline_id', 'aircraft_id', 'number', 'seats', 'price'], 'required'],
             [['origin_id', 'destination_id', 'airline_id', 'aircraft_id', 'seats'], 'integer'],
-            ['destination_id', 'compare', 'compareAttribute' => 'origin_id', 'operator' => '!='],
-            ['arrival', 'compare', 'compareAttribute' => 'departure', 'operator' => '>'],
+            ['destination_id', 'compare', 'compareAttribute' => 'origin_id', 'operator' => '!='], //impossible to choose same city
+            ['arrival', 'compare', 'compareAttribute' => 'departure', 'operator' => '>'], //arrival must be after departure
             [['departure', 'arrival'], 'safe'],
             [['price'], 'number'],
             [['number'], 'string', 'max' => 4],
@@ -59,6 +63,8 @@ class Flight extends \yii\db\ActiveRecord
     }
 
     /**
+     * Attribute labels
+     *
      * @inheritdoc
      */
     public function attributeLabels()
@@ -84,6 +90,8 @@ class Flight extends \yii\db\ActiveRecord
     }
 
     /**
+     * Finds Aircraft of this Flight
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getAircraft()
@@ -92,6 +100,8 @@ class Flight extends \yii\db\ActiveRecord
     }
 
     /**
+     * Finds Airline of this Flight
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getAirline()
@@ -100,6 +110,8 @@ class Flight extends \yii\db\ActiveRecord
     }
 
     /**
+     * Finds Destination City of this Flight
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getDestination()
@@ -108,6 +120,8 @@ class Flight extends \yii\db\ActiveRecord
     }
 
     /**
+     * Finds Origin City of this Flight
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getOrigin()
@@ -116,6 +130,8 @@ class Flight extends \yii\db\ActiveRecord
     }
 
     /**
+     * Returns the number of Available Seats
+     *
      * @return int
      */
     public function getAvailable()
@@ -123,6 +139,11 @@ class Flight extends \yii\db\ActiveRecord
         return $this->seats - $this->getBookedSeatsCount();
     }
 
+    /**
+     * Returns the number of Booked Seats
+     *
+     * @return int
+     */
     public function getBookedSeatsCount()
     {
         if (!$this->getBookings()->exists()) {
@@ -131,20 +152,38 @@ class Flight extends \yii\db\ActiveRecord
         return (int)$this->getBookings()->sum('adults');
     }
 
+    /**
+     * Returns the composite Title of the Flight
+     *
+     * @return string
+     */
     public function getTitle()
     {
-        return $this->origin->iata . ' - ' . $this->destination->iata . ' ' . $this->departure . ' ' . $this->arrival . ', ' . $this->airline->name;
+        return
+            $this->origin->iata         . ' - ' .
+            $this->destination->iata    . ' ' .
+            $this->departure            . ' ' .
+            $this->arrival              . ', ' .
+            $this->airline->name;
     }
 
+    /**
+     * Returns Duration string of the Flight
+     *
+     * @return string
+     */
     public function getDuration()
     {
         $departure = new \DateTime($this->departure);
         $arrival = new \DateTime($this->arrival);
         $interval = $arrival->diff($departure);
+        // if the duration is more than 24H return number days
         return $interval->format($interval->d > 0? '%d days %H:%i':'%H:%i');
     }
 
     /**
+     * Check if the specified User has booked this Flight
+     *
      * @param User $user
      * @return bool
      */
@@ -154,6 +193,8 @@ class Flight extends \yii\db\ActiveRecord
     }
 
     /**
+     * Finds Bookings of this Flight by the specified User
+     *
      * @param User $user
      * @return ActiveQuery
      */
@@ -163,6 +204,8 @@ class Flight extends \yii\db\ActiveRecord
     }
 
     /**
+     * Finds Bookings of this Flight
+     *
      * @return ActiveQuery
      */
     public function getBookings()
@@ -170,15 +213,26 @@ class Flight extends \yii\db\ActiveRecord
         return $this->hasMany(Booking::className(), ['flight_id' => 'id']);
     }
 
+    /**
+     * Checks if Flight can be deleter
+     *
+     * @return bool
+     */
     public function beforeDelete()
     {
-        if ($this->getBookings()->exists()) {
+        if ($this->getBookings()->exists()) {//cannot delete the Flight if it has Bookings
             Yii::$app->session->addFlash('danger', 'Sorry, you cannot delete this record because there is relational Bookings');
             return false;
         }
         return parent::beforeDelete();
     }
 
+    /**
+     * Finds Flight using DB cache
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     public static function find()
     {
         $result = Flight::getDb()->cache(function ($db) {

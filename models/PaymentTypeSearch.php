@@ -13,6 +13,8 @@ use app\models\PaymentType;
 class PaymentTypeSearch extends PaymentType
 {
     /**
+     * Validation rules
+     *
      * @inheritdoc
      */
     public function rules()
@@ -24,6 +26,8 @@ class PaymentTypeSearch extends PaymentType
     }
 
     /**
+     * Model scenarios
+     *
      * @inheritdoc
      */
     public function scenarios()

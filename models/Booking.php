@@ -24,13 +24,36 @@ use yii\behaviors\TimestampBehavior;
  */
 class Booking extends \yii\db\ActiveRecord
 {
+    /**
+     * Username of customer if he is not logged in
+     *
+     * @var string $username
+     */
     public $username;
+
+    /**
+     * Password of customer if he is not logged in
+     *
+     * @var string $password
+     */
     public $password;
+
+    /**
+     * Remember the customer if he is not logged in
+     *
+     * @var bool $rememberMe
+     */
     public $rememberMe = true;
 
+    /**
+     * User model
+     * @var bool|User
+     */
     private $_user = false;
 
     /**
+     * Table name
+     *
      * @inheritdoc
      */
     public static function tableName()
@@ -39,6 +62,8 @@ class Booking extends \yii\db\ActiveRecord
     }
 
     /**
+     * Validation rules
+     *
      * @inheritdoc
      */
     public function rules()
@@ -58,6 +83,8 @@ class Booking extends \yii\db\ActiveRecord
     }
 
     /**
+     * Attribute labels
+     *
      * @inheritdoc
      */
     public function attributeLabels()
@@ -76,6 +103,8 @@ class Booking extends \yii\db\ActiveRecord
     }
 
     /**
+     * Finds Flights with this booking
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getFlight()
@@ -84,6 +113,8 @@ class Booking extends \yii\db\ActiveRecord
     }
 
     /**
+     * Finds PaymentType of this booking
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getPaymentType()
@@ -92,23 +123,22 @@ class Booking extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * Check if the booking can be saved
+     *
+     * @param bool $insert
+     * @return bool
      */
-    //public function getUser()
-    //{
-    //    return $this->hasOne(User::className(), ['id' => 'user_id']);
-    //}
-
     public function beforeSave($insert)
     {
-        if ($this->adults > $this->flight->available) {
+        if ($this->adults > $this->flight->available) { //cant save booking if adults of this booking is more than
+            // available seats on the flight
             Yii::$app->session->addFlash('danger', 'Sorry, there is no enough available seats in this flight');
             return false;
         }
         $now = new \DateTime();
-        $this->updated_at = $now->format('Y-m-d H:i:s');
+        $this->updated_at = $now->format('Y-m-d H:i:s'); //set updated_at attribute
         if ($insert) {
-            $this->created_at = $now->format('Y-m-d H:i:s');
+            $this->created_at = $now->format('Y-m-d H:i:s'); //and created_at if it is a new record
         }
         return parent::beforeSave($insert);
     }
@@ -133,6 +163,7 @@ class Booking extends \yii\db\ActiveRecord
 
     /**
      * Logs in a user using the provided username and password.
+     *
      * @return boolean whether the user is logged in successfully
      */
     public function login()
@@ -164,6 +195,12 @@ class Booking extends \yii\db\ActiveRecord
         return $this->_user;
     }
 
+    /**
+     * Finds Booking using DB cache
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     public static function find()
     {
         $result = Booking::getDb()->cache(function ($db) {

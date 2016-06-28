@@ -14,6 +14,8 @@ use Yii;
 class Airline extends \yii\db\ActiveRecord
 {
     /**
+     * Table name
+     *
      * @inheritdoc
      */
     public static function tableName()
@@ -22,6 +24,8 @@ class Airline extends \yii\db\ActiveRecord
     }
 
     /**
+     * Validation rules
+     *
      * @inheritdoc
      */
     public function rules()
@@ -35,6 +39,8 @@ class Airline extends \yii\db\ActiveRecord
     }
 
     /**
+     * Attribute labels
+     *
      * @inheritdoc
      */
     public function attributeLabels()
@@ -47,18 +53,19 @@ class Airline extends \yii\db\ActiveRecord
     }
 
     /**
+     * Find Airline by ICAO code
+     *
      * @param $icao
      * @return Airline
      */
     public static function findByICAO($icao)
     {
-        $result = Airline::getDb()->cache(function ($db) use ($icao){
-            return Airline::findOne(['icao' => $icao]);
-        });
-        return $result;
+        return Airline::findOne(['icao' => $icao]);
     }
 
     /**
+     * Finds Flights with this Airline
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getFlights()
@@ -66,6 +73,11 @@ class Airline extends \yii\db\ActiveRecord
         return $this->hasMany(Flight::className(), ['airline_id' => 'id']);
     }
 
+    /**
+     * Check if Airline can be deleted
+     *
+     * @return bool
+     */
     public function beforeDelete()
     {
         if ($this->getFlights()->exists()) {
@@ -75,6 +87,12 @@ class Airline extends \yii\db\ActiveRecord
         return parent::beforeDelete();
     }
 
+    /**
+     * Find Airline using DB cache
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     public static function find()
     {
         $result = Airline::getDb()->cache(function ($db) {

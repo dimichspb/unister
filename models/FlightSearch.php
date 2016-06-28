@@ -13,6 +13,8 @@ use app\models\Flight;
 class FlightSearch extends Flight
 {
     /**
+     * Validation rules
+     *
      * @inheritdoc
      */
     public function rules()
@@ -25,6 +27,8 @@ class FlightSearch extends Flight
     }
 
     /**
+     * Model scenarios
+     *
      * @inheritdoc
      */
     public function scenarios()

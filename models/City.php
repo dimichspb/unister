@@ -14,6 +14,8 @@ use Yii;
 class City extends \yii\db\ActiveRecord
 {
     /**
+     * Table name
+     *
      * @inheritdoc
      */
     public static function tableName()
@@ -22,6 +24,8 @@ class City extends \yii\db\ActiveRecord
     }
 
     /**
+     * Validation rules
+     *
      * @inheritdoc
      */
     public function rules()
@@ -35,6 +39,8 @@ class City extends \yii\db\ActiveRecord
     }
 
     /**
+     * Attribute labels
+     *
      * @inheritdoc
      */
     public function attributeLabels()
@@ -47,6 +53,8 @@ class City extends \yii\db\ActiveRecord
     }
 
     /**
+     * Finds City by IATA code
+     *
      * @param $iata
      * @return City
      */
@@ -59,6 +67,8 @@ class City extends \yii\db\ActiveRecord
     }
 
     /**
+     * Finds Flights where this City is Origin
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getOrigins()
@@ -67,6 +77,8 @@ class City extends \yii\db\ActiveRecord
     }
 
     /**
+     * Finds Flights where this City is Destination
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getDestinations()
@@ -74,15 +86,26 @@ class City extends \yii\db\ActiveRecord
         return $this->hasMany(Flight::className(), ['destination_id' => 'id']);
     }
 
+    /**
+     * Checks if the City can be deleted
+     *
+     * @return bool
+     */
     public function beforeDelete()
     {
-        if ($this->getOrigins()->exists() || $this->getDestinations()->exists()) {
+        if ($this->getOrigins()->exists() || $this->getDestinations()->exists()) {//cant delete if City is used in Flights
             Yii::$app->session->addFlash('danger', 'Sorry, you cannot delete this record because there is relational Flights');
             return false;
         }
         return parent::beforeDelete();
     }
 
+    /**
+     * Finds City using DB cache
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     public static function find()
     {
         $result = City::getDb()->cache(function ($db) {
