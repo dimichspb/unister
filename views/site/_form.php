@@ -17,7 +17,7 @@ use kartik\touchspin\TouchSpin;
 
 <?php $form = ActiveForm::begin([
     'id' => 'flight-form',
-    'action' => ['search'],
+    'action' => ['results'],
     'method' => 'GET',
     'options' => ['class' => 'form-horizontal'],
 ]); ?>

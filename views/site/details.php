@@ -10,16 +10,18 @@ use yii\helpers\ArrayHelper;
 
 /* @var $this \yii\base\View */
 /* @var $bookingModel \app\models\Booking */
-/* @var $flightModel \app\models\Flight */
-/* @var $userModel \app\models\User */
 
-$this->title = 'Confirmation';
+$this->title = 'Booking details';
 ?>
 
 <div class="details-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <?php $form = ActiveForm::begin([
+        'id' => 'booking-form',
+        'method' => 'POST',
+    ]); ?>
     <div class="row">
         <div class="col-xs-12">
             <h2>Flight details:</h2>
@@ -28,8 +30,10 @@ $this->title = 'Confirmation';
 
     <div class="row">
         <div class="col-xs-12">
+            <?= $form->field($bookingModel, 'flight_id')->hiddenInput()->label(false) ?>
+
             <?= DetailView::widget([
-                'model' => $flightModel,
+                'model' => $bookingModel->flight,
                 'attributes' => [
                     'origin.name',
                     'destination.name',
@@ -52,13 +56,31 @@ $this->title = 'Confirmation';
 
     <div class="row">
         <div class="col-xs-12">
+
+            <?php if (Yii::$app->user->isGuest): ?>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <?= $form->field($bookingModel, 'username')->textInput() ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <?= $form->field($bookingModel, 'password')->passwordInput() ?>
+                </div>
+            </div>
+
+            <?php else: ?>
+
+            <?= $form->field($bookingModel, 'user_id')->hiddenInput()->label(false) ?>
             <?= DetailView::widget([
-                'model' => $userModel,
+                'model' => $bookingModel->user,
                 'attributes' => [
                     'username',
                     'email',
                 ],
             ]) ?>
+            <?php endif ?>
         </div>
     </div>
 
@@ -70,21 +92,11 @@ $this->title = 'Confirmation';
 
     <div class="row">
         <div class="col-xs-12">
-            <?php $form = ActiveForm::begin([
-                'id' => 'booking-form',
-                'action' => ['site/confirmation'],
-                'method' => 'POST',
-            ]); ?>
-
-            <?= $form->field($bookingModel, 'user_id')->hiddenInput()->label(false) ?>
-
-            <?= $form->field($bookingModel, 'flight_id')->hiddenInput()->label(false) ?>
-
             <?= $form->field($bookingModel, 'adults')->widget(TouchSpin::className(), [
                 'pluginOptions' => [
                     'min' => 1,
                     'step' => 1,
-                    'max' => $flightModel->available,
+                    'max' => $bookingModel->flight->available,
                 ],
             ]); ?>
 
@@ -94,9 +106,9 @@ $this->title = 'Confirmation';
             ]); ?>
 
             <?= Html::submitButton('<i class="glyphicon glyphicon-ok"></i> Confirm', ['class' => 'btn btn-success']) ?>
-            <?php ActiveForm::end() ?>
         </div>
     </div>
+    <?php ActiveForm::end() ?>
 </div>
 
 

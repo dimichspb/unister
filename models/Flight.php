@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "flight".
@@ -119,7 +120,15 @@ class Flight extends \yii\db\ActiveRecord
      */
     public function getAvailable()
     {
-        return $this->seats - 10;
+        return $this->seats - $this->getBookedSeatsCount();
+    }
+
+    public function getBookedSeatsCount()
+    {
+        if (!$this->getBookings()->exists()) {
+            return 0;
+        }
+        return (int)$this->getBookings()->sum('adults');
     }
 
     public function getTitle()
@@ -133,5 +142,31 @@ class Flight extends \yii\db\ActiveRecord
         $arrival = new \DateTime($this->arrival);
         $interval = $arrival->diff($departure);
         return $interval->format('%H:%i');
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function checkUserBooking(User $user)
+    {
+        return $this->getUserBookings($user)->exists();
+    }
+
+    /**
+     * @param User $user
+     * @return ActiveQuery
+     */
+    public function getUserBookings(User $user)
+    {
+        return $this->getBookings()->where(['user_id' => $user->id]);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getBookings()
+    {
+        return $this->hasMany(Booking::className(), ['flight_id' => 'id']);
     }
 }

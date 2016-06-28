@@ -60,10 +60,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'available',
                 'price:currency',
                 [
+                    'label' => 'Total cost',
+                    'value' => function(Flight $model) use ($chooseModel) {
+                        return Yii::$app->formatter->asCurrency($chooseModel->adults * $model->price);
+                    }
+                ],
+                [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => '{book}',
                     'buttons' => [
-                        'book' => function ($url, $model) {
+                        'book' => function ($url, Flight $model) {
+                            if (!Yii::$app->user->isGuest && $model->checkUserBooking(Yii::$app->user->getIdentity())) {
+                                return 'booked';
+                            }
+
                             return Html::submitButton('<i class="glyphicon glyphicon-shopping-cart"></i> Book now', ['class' => 'btn btn-primary', 'name' => 'ChooseForm[flight_id]', 'value' => $model->id]);
                         },
                     ],

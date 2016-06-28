@@ -34,9 +34,8 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
-                    'search' => ['get'],
+                    'results' => ['get'],
                     'details' => ['post'],
-                    'confirmation' => ['post'],
                 ],
             ],
         ];
@@ -66,7 +65,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionSearch()
+    public function actionResults()
     {
         $model = new FlightForm();
         $dataProvider = $model->search(Yii::$app->request->queryParams);
@@ -79,7 +78,7 @@ class SiteController extends Controller
         $chooseModel = new ChooseForm();
         $chooseModel->adults = $model->adults;
 
-        return $this->render('search', [
+        return $this->render('result', [
             'searchModel' => $model,
             'dataProvider' => $dataProvider,
             'chooseModel' => $chooseModel,
@@ -89,31 +88,32 @@ class SiteController extends Controller
     public function actionDetails()
     {
         $chooseModel = new ChooseForm();
-        $chooseModel->load(Yii::$app->request->post());
-
-        $userModel = Yii::$app->user->isGuest? new User(): Yii::$app->user->getIdentity();
-        $flightModel = $chooseModel->flight;
-
         $bookingModel = new Booking();
-        $bookingModel->adults = $chooseModel->adults;
-        $bookingModel->flight_id = $chooseModel->flight_id;
-        $bookingModel->user_id = $userModel->id;
+
+        if ($chooseModel->load(Yii::$app->request->post())) {
+            if (!Yii::$app->user->isGuest && $chooseModel->flight->checkUserBooking(Yii::$app->user->getIdentity())) {
+                Yii::$app->session->addFlash('danger', 'Sorry, you cannot book the same flight twice');
+                return $this->goBack();
+            }
+            $bookingModel->adults = $chooseModel->adults;
+            $bookingModel->flight_id = $chooseModel->flight_id;
+            $bookingModel->user_id = Yii::$app->user->isGuest? null: Yii::$app->user->getId();
+        }
+
+        if ($bookingModel->load(Yii::$app->request->post())) {
+            if ($bookingModel->login() && $bookingModel->save()) {
+                return $this->redirect(['site/confirmation']);
+            }
+        }
 
         return $this->render('details', [
             'bookingModel' => $bookingModel,
-            'userModel' => $userModel,
-            'flightModel' => $flightModel,
         ]);
     }
 
     public function actionConfirmation()
     {
-        $model = new Booking();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->render('confirmation');
-        }
-        Yii::$app->session->addFlash('danger', 'Sorry, you cannot book the same flight twice');
-        return $this->goBack();
+        return $this->render('confirmation');
     }
 
     public function actionLogin()
