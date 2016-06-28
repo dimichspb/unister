@@ -14,8 +14,15 @@ use app\models\ContactForm;
 use app\models\Flight;
 use app\models\Booking;
 
+/**
+ * Class SiteController
+ * @package app\controllers
+ */
 class SiteController extends Controller
 {
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         return [
@@ -39,20 +46,20 @@ class SiteController extends Controller
                 ],
             ],
             [
-                'class' => 'yii\filters\PageCache',
+                'class' => 'yii\filters\PageCache', //setting server side caching
                 'only' => ['index'],
                 'duration' => 600,
                 'variations' => [
                     Yii::$app->language,
-                    Yii::$app->user->getId(),
+                    Yii::$app->user->getId(), //different cache for different Users
                 ],
                 'dependency' => [
-                    'class' => 'yii\caching\DbDependency',
+                    'class' => 'yii\caching\DbDependency', //cache updates if any changes in City table
                     'sql' => 'SELECT COUNT(*) FROM city',
                 ],
             ],
             [
-                'class' => 'yii\filters\HttpCache',
+                'class' => 'yii\filters\HttpCache', //setting client side caching
                 'only' => ['index'],
                 'lastModified' => function ($action, $params) {
                     return time();
@@ -63,6 +70,9 @@ class SiteController extends Controller
         ];
     }
 
+    /**
+     * @return array
+     */
     public function actions()
     {
         return [
@@ -76,6 +86,9 @@ class SiteController extends Controller
         ];
     }
 
+    /**
+     * @return string
+     */
     public function actionIndex()
     {
         $model = new FlightForm();
@@ -86,6 +99,9 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionResults()
     {
         $model = new FlightForm();
@@ -106,6 +122,9 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionDetails()
     {
         $chooseModel = new ChooseForm();
@@ -132,11 +151,17 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function actionConfirmation()
     {
         return $this->render('confirmation');
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
@@ -152,6 +177,9 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @return \yii\web\Response
+     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -159,6 +187,9 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionContact()
     {
         $model = new ContactForm();
@@ -172,6 +203,9 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function actionAbout()
     {
         return $this->render('about');

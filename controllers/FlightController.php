@@ -53,6 +53,7 @@ class FlightController extends Controller
 
     /**
      * Lists all Flight models.
+     *
      * @return mixed
      */
     public function actionIndex()
@@ -68,6 +69,7 @@ class FlightController extends Controller
 
     /**
      * Displays a single Flight model.
+     *
      * @param integer $id
      * @return mixed
      */
@@ -81,6 +83,7 @@ class FlightController extends Controller
     /**
      * Creates a new Flight model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
@@ -99,6 +102,7 @@ class FlightController extends Controller
     /**
      * Updates an existing Flight model.
      * If update is successful, the browser will be redirected to the 'view' page.
+     *
      * @param integer $id
      * @return mixed
      */
@@ -118,6 +122,7 @@ class FlightController extends Controller
     /**
      * Deletes an existing Flight model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $id
      * @return mixed
      */
@@ -131,6 +136,7 @@ class FlightController extends Controller
     /**
      * Finds the Flight model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
      * @return Flight the loaded model
      * @throws NotFoundHttpException if the model cannot be found
