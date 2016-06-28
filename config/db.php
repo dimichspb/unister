@@ -4,9 +4,9 @@ use yii\helpers\ArrayHelper;
 
 $dbConfig = [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '',
+    'dsn' => 'mysql:host=localhost;dbname=unister',
+    'username' => 'unister',
+    'password' => 'unister',
     'charset' => 'utf8',
     'enableSchemaCache' => true,
     'enableQueryCache' => true,
