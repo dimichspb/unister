@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Flight;
+use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -57,6 +58,9 @@ class FlightForm extends Flight
     public function search($params)
     {
         $query = Flight::find();
+        $subQuery = Booking::find();
+        $subQuery->select('flight_id, SUM(adults) as adults_sum')->groupBy('flight_id');
+        $query->leftJoin(['booking' => $subQuery], 'booking.flight_id = id');
 
         // add conditions that should always apply here
 
@@ -85,6 +89,12 @@ class FlightForm extends Flight
             'departure',
             Yii::$app->formatter->asDate($this->departure, 'php:Y-m-d 00:00:00'),
             Yii::$app->formatter->asDate($this->departure, 'php:Y-m-d 23:59:59'),
+        ]);
+
+        $query->andFilterWhere([
+            '>=',
+            new Expression('`flight`.`seats` - `booking`.`adults_sum`'),
+            $this->adults
         ]);
 
         return $dataProvider;
