@@ -23,9 +23,11 @@ class FlightForm extends Flight
     public function rules()
     {
         return [
-            [['id', 'origin_id', 'destination_id', 'adults'], 'integer'],
+            [['id', 'origin_id', 'destination_id', 'airline_id', 'adults'], 'integer'],
+            [['origin_id', 'destination_id', 'departure'], 'required'],
             [['departure'], 'date'],
             ['destination_id', 'compare', 'compareAttribute' => 'origin_id', 'operator' => '!='],
+            [['airline_id'], 'exist', 'skipOnError' => true, 'targetClass' => Airline::className(), 'targetAttribute' => ['airline_id' => 'id']],
             [['destination_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['destination_id' => 'id']],
             [['origin_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['origin_id' => 'id']],
         ];
@@ -82,6 +84,7 @@ class FlightForm extends Flight
             'id' => $this->id,
             'origin_id' => $this->origin_id,
             'destination_id' => $this->destination_id,
+            'airline_id' => $this->airline_id,
         ]);
 
         $query->andFilterWhere([

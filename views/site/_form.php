@@ -1,6 +1,7 @@
 <?php
 
 use app\models\FlightForm;
+use app\models\Airline;
 use app\models\City;
 use yii\bootstrap\ActiveForm;
 use kartik\select2\Select2;
@@ -33,7 +34,7 @@ use kartik\touchspin\TouchSpin;
     <div class="col-xs-12">
         <?= $form->field($model, 'destination_id')->widget(Select2::className(), [
             'data' => ArrayHelper::map(City::find()->all(), 'id', 'name'),
-            'options' => ['placeholder' => 'Choose your destination....'],
+            'options' => ['placeholder' => 'Choose your destination..'],
         ]) ?>
     </div>
 </div>
@@ -44,6 +45,15 @@ use kartik\touchspin\TouchSpin;
                 'autoclose' => true,
                 'format' => 'dd.mm.yyyy',
             ],
+            'options' => ['placeholder' => 'Choose your departure date...'],
+        ]) ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <?= $form->field($model, 'airline_id')->widget(Select2::className(), [
+            'data' => ArrayHelper::map(Airline::find()->all(), 'id', 'name'),
+            'options' => ['placeholder' => 'Choose your airline..'],
         ]) ?>
     </div>
 </div>
