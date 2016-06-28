@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'price:currency',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => Yii::$app->user->can('admin')? '{view} {update} {delete}': '{view}',
+                'template' => Yii::$app->user->can('manager')? '{view} {update} {delete}': '{view}',
             ],
         ],
     ]); ?>

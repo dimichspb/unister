@@ -33,12 +33,12 @@ class FlightController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['update', 'delete'],
+                        'actions' => [],
                         'roles' => ['admin'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['create'],
+                        'actions' => ['create', 'update', 'delete'],
                         'roles' => ['manager'],
                     ],
                     [
