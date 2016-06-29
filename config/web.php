@@ -56,9 +56,9 @@ $config = [
                 'cities' => 'city/index',
                 'methods' => 'payment-type/index',
                 'flights' => 'flight/index',
-                'results' => 'site/results',
-                'details' => 'site/details',
-                'confirmation' => 'site/confirmation',
+                'results' => 'booking/results',
+                'details' => 'booking/details',
+                'confirmation' => 'booking/confirmation',
 
                 '<_c:[\w\-]+>/<_a:[\w\-]+>' => '<_c>/<_a>',
                 '<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',

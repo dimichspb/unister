@@ -2,17 +2,13 @@
 
 namespace app\controllers;
 
-use app\models\ChooseForm;
 use app\models\FlightForm;
-use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\Flight;
-use app\models\Booking;
 
 /**
  * Class SiteController
@@ -28,10 +24,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'confirmation'],
+                'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout', 'confirmation'],
+                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -41,8 +37,6 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
-                    'results' => ['get'],
-                    'details' => ['post'],
                 ],
             ],
             [
@@ -97,66 +91,6 @@ class SiteController extends Controller
         return $this->render('index', [
             'model' => $model,
         ]);
-    }
-
-    /**
-     * @return string|\yii\web\Response
-     */
-    public function actionResults()
-    {
-        $model = new FlightForm();
-        $dataProvider = $model->search(Yii::$app->request->queryParams);
-
-        if ($dataProvider->getCount() === 0) {
-            Yii::$app->session->addFlash('info', 'Sorry, no flight found by your criteria');
-            return $this->redirect(['site/index']);
-        }
-
-        $chooseModel = new ChooseForm();
-        $chooseModel->adults = $model->adults;
-
-        return $this->render('result', [
-            'searchModel' => $model,
-            'dataProvider' => $dataProvider,
-            'chooseModel' => $chooseModel,
-        ]);
-    }
-
-    /**
-     * @return string|\yii\web\Response
-     */
-    public function actionDetails()
-    {
-        $chooseModel = new ChooseForm();
-        $bookingModel = new Booking();
-
-        if ($chooseModel->load(Yii::$app->request->post())) {
-            if (!Yii::$app->user->isGuest && $chooseModel->flight->checkUserBooking(Yii::$app->user->getIdentity())) {
-                Yii::$app->session->addFlash('danger', 'Sorry, you cannot book the same flight twice');
-                return $this->goBack();
-            }
-            $bookingModel->adults = $chooseModel->adults;
-            $bookingModel->flight_id = $chooseModel->flight_id;
-            $bookingModel->user_id = Yii::$app->user->isGuest? null: Yii::$app->user->getId();
-        }
-
-        if ($bookingModel->load(Yii::$app->request->post())) {
-            if ($bookingModel->login() && $bookingModel->save()) {
-                return $this->redirect(['site/confirmation']);
-            }
-        }
-
-        return $this->render('details', [
-            'bookingModel' => $bookingModel,
-        ]);
-    }
-
-    /**
-     * @return string
-     */
-    public function actionConfirmation()
-    {
-        return $this->render('confirmation');
     }
 
     /**

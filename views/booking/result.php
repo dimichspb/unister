@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="body-content">
         <?php $form = ActiveForm::begin([
             'id' => 'choose-form',
-            'action' => ['site/details'],
+            'action' => ['booking/details'],
             'method' => 'POST',
         ]) ?>
         <?= $form->field($chooseModel, 'adults')->hiddenInput()->label(false) ?>
