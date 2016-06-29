@@ -70,6 +70,9 @@ class Booking extends \yii\db\ActiveRecord
     {
         return [
             [['flight_id', 'payment_type_id'], 'required'],
+            [['username', 'password'], 'required', 'when' => function ($model) {
+                return empty($model->user_id);
+            }],
             [['username', 'password'], 'string'],
             ['rememberMe', 'boolean'],
             ['password', 'validatePassword'],
